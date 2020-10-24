@@ -5,9 +5,12 @@ import com.fgrapp.cloud.entities.Payment;
 import com.fgrapp.cloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  *
@@ -21,6 +24,8 @@ public class PaymentController {
     private PaymentService paymentService;
     @Value("${server.port}")
     private  int port;
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @PostMapping(value = "/payment/create")
     public CommonResult create(@RequestBody Payment payment){
@@ -47,4 +52,17 @@ public class PaymentController {
         }
     }
 
+    @GetMapping("/payment/discovery")
+    public CommonResult discovery(){
+        List<String> services = discoveryClient.getServices();
+        services.forEach(element->{
+            log.info("*****element:{}",element);
+        });
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        instances.forEach(serviceInstance -> {
+            log.info(serviceInstance.getServiceId()+"\t"+serviceInstance.getHost()+"\t"+serviceInstance.getPort()+"\t"+serviceInstance.getUri());
+        });
+        return new CommonResult(200,"查询成功:  port="+port,discoveryClient);
+    }
 }
