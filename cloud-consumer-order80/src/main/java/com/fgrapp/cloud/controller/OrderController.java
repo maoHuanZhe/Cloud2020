@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * OrderController
@@ -21,7 +20,8 @@ import java.util.List;
 @Slf4j
 public class OrderController {
 
-    public static final String PAYMENT_URL = "http://localhost:8001"; //单机版
+//    public static final String PAYMENT_URL = "http://localhost:8001"; //单机版
+    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE"; //集群版
     @Resource
     private RestTemplate restTemplate;
 
