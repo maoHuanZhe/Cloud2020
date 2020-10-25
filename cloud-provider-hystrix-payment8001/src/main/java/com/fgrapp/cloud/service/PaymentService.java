@@ -19,7 +19,7 @@ public class PaymentService {
         return "线程池:  "+Thread.currentThread().getName()+"  paymentInfo_OK,id:  "+id+"\t"+"O(∩_∩)O哈哈~";
     }
     @HystrixCommand(fallbackMethod = "paymentInfo_TimeOutHandler",commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000")
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="5000")
     })
     public String paymentInfo_TimeOut(Integer id)
     {
