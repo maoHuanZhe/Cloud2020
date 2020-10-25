@@ -65,4 +65,9 @@ public class PaymentController {
         });
         return new CommonResult(200,"查询成功:  port="+port,discoveryClient);
     }
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB()
+    {
+        return port+"";
+    }
 }
